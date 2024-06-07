@@ -67,7 +67,7 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { is_deleted: false, email } });
     if (!user) {
       return res.status(400).json({ error: "Invalid Email or Password" });
     } else {
