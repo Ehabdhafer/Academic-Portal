@@ -41,6 +41,23 @@ exports.getCourses = async (req, res) => {
   }
 };
 
+exports.getCourse = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const course = await Courses.findOne({
+      where: { is_deleted: false, id },
+      include: {
+        model: User,
+        attributes: ["name"],
+      },
+    });
+    res.json(course);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+};
+
 exports.updateCourses = async (req, res) => {
   const { course_name, description, start_date, end_date } = req.body;
   const { id } = req.params;
@@ -64,6 +81,32 @@ exports.updateCourses = async (req, res) => {
         }
       );
       res.json({ message: "Course Updated Successfully" });
+    }
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+};
+
+exports.deleteCourses = async (req, res) => {
+  const { id } = req.params;
+  const user_id = req.user.user_id;
+  try {
+    const course = await Courses.findOne({
+      where: { is_deleted: false, id, teacher: user_id },
+    });
+    if (!course) {
+      res.status(404).json({ message: "Course Not Found" });
+    } else {
+      await Courses.update(
+        {
+          is_deleted: true,
+        },
+        {
+          where: { id: id, teacher: user_id },
+        }
+      );
+      res.json({ message: "Course Deleted Successfully" });
     }
   } catch (e) {
     console.error(e);
