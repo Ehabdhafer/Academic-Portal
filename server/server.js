@@ -12,10 +12,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const user_router = require("./routes/user_route");
+const course_router = require("./routes/course_route");
 
 // ---------------------------------------------------------
 
 app.use(user_router);
+app.use(course_router);
 
 // ----------------------------------------------------------
 sequelize
