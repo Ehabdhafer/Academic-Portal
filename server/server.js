@@ -11,11 +11,11 @@ app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// const user_router = require("./routes/user_route");
+const user_router = require("./routes/user_route");
 
 // ---------------------------------------------------------
 
-// app.use(user_router);
+app.use(user_router);
 
 // ----------------------------------------------------------
 sequelize
