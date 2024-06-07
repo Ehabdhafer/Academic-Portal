@@ -3,7 +3,6 @@ const User = require("../models/user_model");
 const Joi = require("joi");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const { use } = require("passport");
 // const crypto = require("crypto");
 // const secretKey1 = crypto.randomBytes(32).toString("hex");
 // console.log(secretKey1);
@@ -45,7 +44,7 @@ exports.register = async (req, res) => {
           name: user.name,
           email: user.email,
           role_id: user.role_id,
-          user_id: user.user_id,
+          user_id: user.id,
         };
 
         const secretKey = process.env.SECRET_KEY;
@@ -81,7 +80,7 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         role_id: user.role_id,
-        user_id: user.user_id,
+        user_id: user.id,
       };
 
       const secretKey = process.env.SECRET_KEY;
