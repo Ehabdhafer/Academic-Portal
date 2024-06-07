@@ -24,6 +24,7 @@ exports.getCourses = async (req, res) => {
   try {
     const result = await Courses.findAll({
       where: {
+        is_deleted: false,
         end_date: {
           [Op.gte]: new Date(),
         },
@@ -45,7 +46,9 @@ exports.updateCourses = async (req, res) => {
   const { id } = req.params;
   const user_id = req.user.user_id;
   try {
-    const course = await Courses.findOne({ where: { id, teacher: user_id } });
+    const course = await Courses.findOne({
+      where: { is_deleted: false, id, teacher: user_id },
+    });
     if (!course) {
       res.status(404).json({ message: "Course Not Found" });
     } else {
