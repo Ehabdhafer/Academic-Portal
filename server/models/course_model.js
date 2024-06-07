@@ -29,4 +29,7 @@ const Courses = sequelize.define("Course", {
   },
 });
 
+Courses.belongsTo(User, { foreignKey: "teacher" });
+User.hasMany(Courses, { foreignKey: "teacher" });
+
 module.exports = Courses;
