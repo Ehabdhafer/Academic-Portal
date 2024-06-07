@@ -58,6 +58,42 @@ exports.register = async (req, res) => {
       }
     }
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    console.error(e);
+    return res.status(500).json({ error: e.message });
+  }
+};
+
+// -----------------------------------------------------------------------------------
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(400).json({ error: "Invalid Email or Password" });
+    } else {
+      const storedpass = user.password;
+      const matched_password = await bcrypt.compare(password, storedpass);
+      if (!matched_password) {
+        return res.status(400).json({ error: "Invalid Email or Password" });
+      }
+
+      const payload = {
+        name: user.name,
+        email: user.email,
+        role_id: user.role_id,
+        user_id: user.user_id,
+      };
+
+      const secretKey = process.env.SECRET_KEY;
+      const token = jwt.sign(payload, secretKey, { expiresIn: "12h" });
+
+      res.status(200).json({
+        message: "Logged in Successfully",
+        token: token,
+      });
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: e.message });
   }
 };
