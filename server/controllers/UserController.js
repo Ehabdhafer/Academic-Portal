@@ -53,6 +53,7 @@ exports.register = async (req, res) => {
         res.status(201).json({
           message: "User Added Successfully",
           token: token,
+          role_id: user.role_id,
         });
       }
     }
@@ -89,6 +90,7 @@ exports.login = async (req, res) => {
       res.status(200).json({
         message: "Logged in Successfully",
         token: token,
+        role_id: user.role_id,
       });
     }
   } catch (e) {

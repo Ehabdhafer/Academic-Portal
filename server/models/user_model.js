@@ -27,6 +27,11 @@ const User = sequelize.define("User", {
       key: "id",
     },
   },
+  is_deleted: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 module.exports = User;
