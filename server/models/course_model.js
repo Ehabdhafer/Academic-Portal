@@ -27,6 +27,11 @@ const Courses = sequelize.define("Course", {
       key: "id",
     },
   },
+  is_deleted: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
 });
 
 Courses.belongsTo(User, { foreignKey: "teacher" });
