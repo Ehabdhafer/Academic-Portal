@@ -43,6 +43,7 @@ const Signup = () => {
       });
       login(response.data.token);
       navigate("/");
+      window.location.reload();
     } catch (e) {
       console.error("error sending data", e);
       setError("Sign-up failed. Email is Exist");
