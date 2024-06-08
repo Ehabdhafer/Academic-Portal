@@ -82,9 +82,11 @@ const Teacher = () => {
                     End at: {item.end_date.split("T")[0]}
                   </p>
                   <div className="flex flex-wrap gap-16 pt-2">
-                    <button className="w-20 text-white bg-blue-500 rounded-lg">
-                      Update
-                    </button>
+                    <Link to={`/updatecourse/${item.id}`}>
+                      <button className="w-20 text-white bg-blue-500 rounded-lg">
+                        Update
+                      </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(item.id)}
                       className="w-20 text-white bg-red-500 rounded-lg "
