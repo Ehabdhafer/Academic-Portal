@@ -28,7 +28,9 @@ exports.register = async (req, res) => {
     if (validate.error) {
       res.status(405).json({ error: validate.error.details });
     } else {
-      const checkemail = await User.findOne({ where: { email } });
+      const checkemail = await User.findOne({
+        where: { is_deleted: false, email },
+      });
       if (checkemail) {
         return res.status(400).json({ error: "Email Already Exists" });
       } else {
@@ -98,3 +100,19 @@ exports.login = async (req, res) => {
     return res.status(500).json({ error: e.message });
   }
 };
+
+// -----------------------------------------------------------------------------------
+exports.getUser = async (req, res) => {
+  const user_id = req.user.user_id;
+  try {
+    const user = await User.findOne({
+      where: { is_deleted: false, id: user_id },
+    });
+    res.json(user);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+};
+// -----------------------------------------------------------------------------------
+exports.deleteUser;
