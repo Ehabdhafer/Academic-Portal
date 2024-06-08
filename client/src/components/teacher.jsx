@@ -8,9 +8,20 @@ const Teacher = () => {
   axios.defaults.headers.common["Authorization"] = token;
   const [courses, setCourses] = useState([]);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.put(`http://localhost:5000/deletecourse/${id}`);
+      fetchData();
+    } catch (error) {
+      console.error("error posting data", error);
+    }
+  };
+
   const fetchData = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/getcourse`);
+      const response = await axios.get(
+        `http://localhost:5000/getteachercourse`
+      );
       setCourses(response.data);
     } catch (error) {
       console.error(error);
@@ -52,6 +63,17 @@ const Teacher = () => {
                   <p className=" text-neutral-500 dark:text-neutral-300">
                     End at: {item.end_date.split("T")[0]}
                   </p>
+                  <div className="flex flex-wrap gap-16 pt-2">
+                    <button className="w-20 text-white bg-blue-500 rounded-lg">
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(item.id)}
+                      className="w-20 text-white bg-red-500 rounded-lg "
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
