@@ -41,6 +41,29 @@ exports.getCourses = async (req, res) => {
   }
 };
 
+exports.getTCourses = async (req, res) => {
+  const user_id = req.user.user_id;
+  try {
+    const result = await Courses.findAll({
+      where: {
+        is_deleted: false,
+        teacher: user_id,
+        end_date: {
+          [Op.gte]: new Date(),
+        },
+      },
+      include: {
+        model: User,
+        attributes: ["name"],
+      },
+    });
+    res.json(result);
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+};
+
 exports.getCourse = async (req, res) => {
   const { id } = req.params;
   try {
