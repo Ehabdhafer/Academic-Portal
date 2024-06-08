@@ -6,6 +6,7 @@ import Signup from "./components/signup";
 import Header from "./components/header";
 import Home from "./components/home";
 import Teacher from "./components/teacher";
+import AddCourse from "./components/add_course";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/teacher" element={<Teacher />} />
+            <Route exact path="/addcourse" element={<AddCourse />} />
           </Routes>
         </div>
       </BrowserRouter>
