@@ -8,6 +8,7 @@ import Home from "./components/home";
 import Teacher from "./components/teacher";
 import AddCourse from "./components/add_course";
 import UpdateCourse from "./components/update_course";
+import Details from "./components/details";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route exact path="/teacher" element={<Teacher />} />
             <Route exact path="/addcourse" element={<AddCourse />} />
             <Route exact path="/updatecourse/:id" element={<UpdateCourse />} />
+            <Route exact path="/details/:id" element={<Details />} />
           </Routes>
         </div>
       </BrowserRouter>

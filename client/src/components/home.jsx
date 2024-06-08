@@ -2,6 +2,7 @@ import Hero from "./hero";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const token = Cookies.get("token");
@@ -52,6 +53,11 @@ const Home = () => {
                   <p className=" text-neutral-500 dark:text-neutral-300">
                     End at: {item.end_date.split("T")[0]}
                   </p>
+                  <Link to={`/details/${item.id}`}>
+                    <button className="w-20 mt-4 text-white bg-blue-500 rounded-lg">
+                      ... Details
+                    </button>
+                  </Link>
                 </div>
               </div>
             ))}
