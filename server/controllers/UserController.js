@@ -115,4 +115,18 @@ exports.getUser = async (req, res) => {
   }
 };
 // -----------------------------------------------------------------------------------
-exports.deleteUser;
+exports.deleteUser = async (req, res) => {
+  const user_id = req.user.user_id;
+  try {
+    await User.update(
+      { is_deleted: true },
+      {
+        where: { is_deleted: false, id: user_id },
+      }
+    );
+    res.json({ message: "User Deleted Successfully" });
+  } catch (e) {
+    console.error(e);
+    res.status(500).json({ error: e.message });
+  }
+};
