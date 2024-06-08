@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 
 const Details = () => {
   const [courses, setCourses] = useState(null);
-  const { Id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async (e) => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/getcourse/${Id}`
+          `http://localhost:5000/getcourse/${id}`
         );
         setCourses(response.data);
       } catch (e) {
@@ -28,40 +28,40 @@ const Details = () => {
             <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
               <img
                 className="w-full h-full object-cover"
-                src={courses.image}
+                src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp"
                 alt="Blog Image"
               />
             </div>
           </div>
           <div className="md:flex-1 px-4 text-left">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2 text-center">
-              Blog Title :{" "}
-              {courses.title.charAt(0).toUpperCase() + courses.title.slice(1)}
+              Course Title :{" "}
+              {courses.course_name?.charAt(0).toUpperCase() +
+                courses.course_name?.slice(1)}
             </h2>
             <div className="mb-4 mt-6">
               <span className="font-bold text-gray-700 dark:text-gray-300">
-                Author :{" "}
+                Instructor :{" "}
               </span>
               <span className="font-bold text-gray-700 dark:text-gray-300">
-                {courses.author.charAt(0).toUpperCase() +
-                  courses.author.slice(1)}
-              </span>
-            </div>
-            <div className="mb-4">
-              <span className="font-bold text-gray-700 dark:text-gray-300">
-                User Name :{" "}
-              </span>
-              <span className="font-bold text-gray-700 dark:text-gray-300">
-                {courses.username.charAt(0).toUpperCase() +
-                  courses.username.slice(1)}
+                {courses.User.name?.charAt(0).toUpperCase() +
+                  courses.User.name?.slice(1)}
               </span>
             </div>
             <div className="mb-4">
               <span className="font-bold text-gray-700 dark:text-gray-300">
-                City :{" "}
+                Start Date :{" "}
               </span>
               <span className="font-bold text-gray-700 dark:text-gray-300">
-                {courses.city}
+                {courses.start_date?.split("T")[0]}
+              </span>
+            </div>
+            <div className="mb-4">
+              <span className="font-bold text-gray-700 dark:text-gray-300">
+                End Date :{" "}
+              </span>
+              <span className="font-bold text-gray-700 dark:text-gray-300">
+                {courses.end_date?.split("T")[0]}
               </span>
             </div>
             <div className="mb-4">
@@ -69,16 +69,16 @@ const Details = () => {
                 Created At :{" "}
               </span>
               <span className="font-bold text-gray-700 dark:text-gray-300">
-                {courses.created_at.split("T")[0]}
+                {courses.createdAt?.split("T")[0]}
               </span>
             </div>
             <div>
               <span className="font-bold text-gray-700 dark:text-gray-300">
                 Blog Description:
-              </span>
-              <p className="text-gray-600 dark:text-gray-300 text-sm mt-2 text-left">
+              </span>{" "}
+              <span className="font-bold text-gray-700 dark:text-gray-300">
                 {courses.description}
-              </p>
+              </span>
             </div>
           </div>
         </div>
