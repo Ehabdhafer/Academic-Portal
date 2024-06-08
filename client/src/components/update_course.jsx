@@ -1,13 +1,15 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateCourse = () => {
   const token = Cookies.get("token");
   axios.defaults.headers.common["Authorization"] = token;
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
+  const [courses, setCourses] = useState(null);
   const [formData, SetFormData] = useState({
     course_name: "",
     description: "",
@@ -15,23 +17,43 @@ const UpdateCourse = () => {
     end_date: "",
   });
 
-  const handleChange = (e) => {
-    SetFormData({ ...formData, [e.target.name]: e.target.value });
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/getcourse/${id}`);
+      const courses = response.data;
+      setCourses(courses);
+      SetFormData({
+        user_id: courses.user_id,
+        course_name: courses.course_name,
+        description: courses.description,
+        start_date: courses.start_date,
+        end_date: courses.end_date,
+      });
+    } catch (error) {
+      console.error("error fetching data", error);
+    }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/postcourse", formData);
-      setError("Course added Successfully");
+      const updatedData = { ...formData };
+      await axios.put(`http://localhost:5000/updatecourse/${id}`, updatedData);
+      setError("Your Course updated successfully");
       setTimeout(() => {
         navigate("/teacher");
-        window.location.reload();
-      }, 1000);
+      }, 4000);
     } catch (e) {
       console.error("error posting data", e);
       setError("All Fields are required");
     }
+  };
+
+  const handleChange = (e) => {
+    SetFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
