@@ -9,10 +9,10 @@ const AddCourse = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const [formData, SetFormData] = useState({
-    title: "",
+    course_name: "",
     description: "",
-    priority: "High",
-    due_date: "",
+    start_date: "",
+    end_date: "",
   });
 
   const handleChange = (e) => {
@@ -22,15 +22,15 @@ const AddCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8000/addtask", formData);
-      setError("Task added Successfully");
+      await axios.post("http://localhost:5000/postcourse", formData);
+      setError("Course added Successfully");
       setTimeout(() => {
-        navigate("/");
+        navigate("/teacher");
         window.location.reload();
       }, 1000);
     } catch (e) {
       console.error("error posting data", e);
-      setError("All Fields except due_date are required");
+      setError("All Fields are required");
     }
   };
 
@@ -43,58 +43,43 @@ const AddCourse = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                   <div>
-                    <span>Priority :</span>
-                    <select
-                      id="priority"
-                      name="priority"
-                      placeholder="priority"
+                    <span>Course_name</span>
+                    <input
                       type="text"
-                      className={`mt-1 p-2 border-2 rounded-md w-full ${
-                        formData.priority === "High"
-                          ? "border-red-600 text-red-600"
-                          : formData.priority === "Medium"
-                          ? "border-yellow-500 text-yellow-500"
-                          : formData.priority === "Low"
-                          ? "border-green-500 text-green-500"
-                          : "border-red-600 text-red-600"
-                      }`}
-                      value={formData.priority}
+                      name="course_name"
+                      placeholder="course_name"
+                      value={formData.course_name}
                       onChange={handleChange}
-                    >
-                      <option value="High" className="text-red-600">
-                        High
-                      </option>
-                      <option value="Medium" className="text-yellow-500">
-                        Medium
-                      </option>
-                      <option value="Low" className="text-green-500">
-                        Low
-                      </option>
-                    </select>
+                      className="border w-full rounded-lg border-gray-200 p-3 text-sm"
+                      id="course_name"
+                    />
+                  </div>
+                  <div>
+                    <span>start_date :</span>
+                    <input
+                      name="start_date"
+                      type="date"
+                      placeholder="start_date"
+                      value={formData.start_date}
+                      onChange={handleChange}
+                      className="border w-full rounded-lg border-gray-200 p-3 text-sm"
+                      id="start_date"
+                    />
+                  </div>
+                  <div>
+                    <span>end_date :</span>
+                    <input
+                      name="end_date"
+                      type="date"
+                      placeholder="end_date"
+                      value={formData.end_date}
+                      onChange={handleChange}
+                      className="border w-full rounded-lg border-gray-200 p-3 text-sm"
+                      id="end_date"
+                    />
                   </div>
                 </div>
-                <div>
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    className="border w-full rounded-lg border-gray-200 p-3 text-sm"
-                    id="title"
-                  />
-                </div>
-                <div>
-                  <input
-                    name="due_date"
-                    type="date"
-                    placeholder="Due_Date"
-                    value={formData.due_date}
-                    onChange={handleChange}
-                    className="border w-full rounded-lg border-gray-200 p-3 text-sm"
-                    id="phone"
-                  />
-                </div>
+
                 <div>
                   <textarea
                     type="text"
