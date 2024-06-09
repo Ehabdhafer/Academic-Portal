@@ -39,8 +39,8 @@ const AddCourse = () => {
       });
       setError("Course added Successfully");
       setTimeout(() => {
-        // navigate("/teacher");
-        // window.location.reload();
+        navigate("/teacher");
+        window.location.reload();
       }, 1000);
     } catch (e) {
       console.error("error posting data", e);
