@@ -28,7 +28,7 @@ const Details = () => {
             <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
               <img
                 className="w-full h-full object-cover"
-                src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp"
+                src={courses.image_url}
                 alt="Blog Image"
               />
             </div>
