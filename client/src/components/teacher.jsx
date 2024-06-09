@@ -62,7 +62,7 @@ const Teacher = () => {
               >
                 <img
                   className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                  src="https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webp"
+                  src={item.image_url}
                   alt="Course"
                 />
                 <div className="flex flex-col justify-start p-6">
