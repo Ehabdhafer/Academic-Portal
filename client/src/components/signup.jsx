@@ -41,9 +41,14 @@ const Signup = () => {
         password: password,
         role_id: role,
       });
-      login(response.data.token);
-      navigate("/");
-      window.location.reload();
+      login(response.data.token, response.data.role_id);
+      if (response.data.role_id === 1) {
+        navigate("/teacher");
+        window.location.reload();
+      } else {
+        navigate("/");
+        window.location.reload();
+      }
     } catch (e) {
       console.error("error sending data", e);
       setError("Sign-up failed. Email is Exist");
