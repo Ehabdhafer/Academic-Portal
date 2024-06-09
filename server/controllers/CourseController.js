@@ -1,17 +1,29 @@
 const Courses = require("../models/course_model");
 const { Op } = require("sequelize");
 const User = require("../models/user_model");
+const firebase = require("../firebase/firebase");
+const { response } = require("express");
 
 exports.postCourse = async (req, res) => {
   const { course_name, description, start_date, end_date } = req.body;
   const user_id = req.user.user_id;
   try {
-    await Courses.create({
+    const file = req.file;
+    let fileurl = "";
+    if (file) {
+      const fileName = `${Date.now()}_${file.originalname}`;
+
+      fileurl = await firebase.uploadFileToFirebase(file, fileName);
+
+      req.body.imageurl = fileurl;
+    }
+    const response = await Courses.create({
       course_name,
       description,
       start_date,
       end_date,
       teacher: user_id,
+      image_url: fileurl,
     });
     return res.status(201).json({ message: "New Course added successfully" });
   } catch (e) {

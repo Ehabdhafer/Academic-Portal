@@ -2,8 +2,16 @@ const { Router } = require("express");
 const router = Router();
 const CourseController = require("../controllers/CourseController");
 const verify = require("../middlewares/authorizationJWT");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-router.post("/postcourse", verify.authorize([1]), CourseController.postCourse);
+router.post(
+  "/postcourse",
+  upload.single("image"),
+  verify.authorize([1]),
+  CourseController.postCourse
+);
 router.get("/getcourse", CourseController.getCourses);
 router.get(
   "/getteachercourse",

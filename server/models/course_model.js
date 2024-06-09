@@ -32,6 +32,12 @@ const Courses = sequelize.define("Course", {
     allowNull: false,
     defaultValue: false,
   },
+  image_url: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue:
+      "https://foundr.com/wp-content/uploads/2023/04/How-to-create-an-online-course.jpg.webpfalse",
+  },
 });
 
 Courses.belongsTo(User, { foreignKey: "teacher" });
