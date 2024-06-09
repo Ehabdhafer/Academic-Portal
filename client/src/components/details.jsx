@@ -20,17 +20,32 @@ const Details = () => {
     fetchData();
   }, []);
 
+  const isVideo = (url) => {
+    const videoExtensions = [".mp4", ".webm", ".ogg"];
+    const urlWithoutParams = url.split("?")[0].toLowerCase();
+    return videoExtensions.some((ext) => urlWithoutParams.endsWith(ext));
+  };
+
   return courses ? (
     <div className="bg-gray-100 dark:bg-gray-800 py-8 mt-4">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row -mx-4">
           <div className="md:flex-1 px-4">
             <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-              <img
-                className="w-full h-full object-cover"
-                src={courses.image_url}
-                alt="Blog Image"
-              />
+              {isVideo(courses.image_url) ? (
+                <video
+                  className="w-full h-full object-cover"
+                  src={courses.image_url} // Ensure this URL points to your video file
+                  controls
+                  alt="Course Video"
+                ></video>
+              ) : (
+                <img
+                  className="w-full h-full object-cover"
+                  src={courses.image_url}
+                  alt="Course Image"
+                />
+              )}
             </div>
           </div>
           <div className="md:flex-1 px-4 text-left">
