@@ -8,6 +8,7 @@ const AddCourse = () => {
   axios.defaults.headers.common["Authorization"] = token;
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const [image, setImage] = useState(null);
   const [formData, SetFormData] = useState({
     course_name: "",
     description: "",
@@ -22,11 +23,24 @@ const AddCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/postcourse", formData);
+      const data = new FormData();
+      data.append("course_name", formData.course_name);
+      data.append("description", formData.description);
+      data.append("start_date", formData.start_date);
+      data.append("end_date", formData.end_date);
+
+      if (image) {
+        data.append("image", image); // Ensure 'file' matches the server expectation
+      }
+      await axios.post("http://localhost:5000/postcourse", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setError("Course added Successfully");
       setTimeout(() => {
-        navigate("/teacher");
-        window.location.reload();
+        // navigate("/teacher");
+        // window.location.reload();
       }, 1000);
     } catch (e) {
       console.error("error posting data", e);
@@ -78,6 +92,14 @@ const AddCourse = () => {
                       id="end_date"
                     />
                   </div>
+                  <input
+                    // name="image"
+                    type="file"
+                    placeholder="image"
+                    onChange={(e) => setImage(e.target.files[0])}
+                    className="border w-full rounded-lg border-gray-200 p-3 text-sm"
+                    // id="image"
+                  />
                 </div>
 
                 <div>
